@@ -30,6 +30,14 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Authentication
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by email
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
 
 # Application definition
 
@@ -70,7 +78,30 @@ INSTALLED_APPS = [
     # Wagtail 
     "taggit",                       # Tagging framework for Django. This is used internally within Wagtail for image and document tagging and is available for your own models as well. 
     "modelcluster",                 # Extension of Django ForeignKey relation functionality, which is used in Wagtail pages for on-the-fly related object creation.
+
+    # Allauth
+    # https://docs.allauth.org/en/latest/installation/quickstart.html
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+
+    # Allauth... include the providers you want to enable:
+    "allauth.socialaccount.providers.facebook",
 ]
+
+# Provider specific settings
+SOCIALACCOUNT_PROVIDERS = {
+    'facebook': {
+        # For each OAuth based provider, either add a ``SocialApp``
+        # (``socialaccount`` app) containing the required client
+        # credentials, or list them here:
+        'APP': {
+            'client_id': '123',
+            'secret': '456',
+            'key': 'xyz'
+        }
+    }
+}
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -83,6 +114,9 @@ MIDDLEWARE = [
 
     # Wagtail middleware - Wagtail provides a simple interface for adding arbitrary redirects to your site and this module makes it happen.
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
+
+    # Allauth - Add the account middleware:
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = "website.urls"
