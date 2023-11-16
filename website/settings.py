@@ -16,12 +16,14 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
+
+PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(PROJECT_DIR)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -39,18 +41,35 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 
-    "blog",      # Blog articles by the author (and by guests?)
-    "guests",    # Contact page and guestbook
-    "locos",     # All details associated primarily with locomotives
-    "people",    # All details associated primarily with CME's etc...
-    "sites",     # All details associated primarily with depots/works/scrapyards etc...
-    "reports",   # The reports page
-    "news",      # News and Views (to be decided ...)
-    "home",      # Index page and introduction
-    "dbase",     # All models - better this way as many apps use many models
-    "api",       # API to allow for either use of React and/or data distribution
+    "blog",                         # Blog articles by the author (and by guests?)
+    "guests",                       # Contact page and guestbook
+    "locos",                        # All details associated primarily with locomotives
+    "people",                       # All details associated primarily with CME's etc...
+    "sites",                        # All details associated primarily with depots/works/scrapyards etc...
+    "reports",                      # The reports page
+    "news",                         # News and Views (to be decided ...)
+    "home",                         # Index page and introduction
+    "dbase",                        # All models - better this way as many apps use many models
+    "api",                          # API to allow for either use of React and/or data distribution
 
-    "cms",       # Wagtail CMS
+    "cms",                          # BRDatabase Wagtail CMS - may not be necessary
+
+    # Wagtail
+    "wagtail.contrib.forms",        # Models for creating forms on your pages and viewing submissions.
+    "wagtail.contrib.redirects",    # Admin interface for creating arbitrary redirects on your site.
+    "wagtail.embeds",               # Module governing oEmbed and Embedly content in Wagtail rich text fields.
+    "wagtail.sites",                # Management UI for Wagtail sites.
+    "wagtail.users",                # User editing interface.
+    "wagtail.snippets",             # Editing interface for non-Page models and objects.
+    "wagtail.documents",            # The Wagtail document content type.
+    "wagtail.images",               # The Wagtail image content type.
+    "wagtail.search",               # Search framework for Page content.
+    "wagtail.admin",                # The administration interface for Wagtail, including page edit handlers.
+    "wagtail",                      # The core functionality of Wagtail, such as the Page class, the Wagtail tree, and model fields.
+
+    # Wagtail 
+    "taggit",                       # Tagging framework for Django. This is used internally within Wagtail for image and document tagging and is available for your own models as well. 
+    "modelcluster",                 # Extension of Django ForeignKey relation functionality, which is used in Wagtail pages for on-the-fly related object creation.
 ]
 
 MIDDLEWARE = [
@@ -61,6 +80,9 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+
+    # Wagtail middleware - Wagtail provides a simple interface for adding arbitrary redirects to your site and this module makes it happen.
+    "wagtail.contrib.redirects.middleware.RedirectMiddleware",
 ]
 
 ROOT_URLCONF = "website.urls"
@@ -68,7 +90,7 @@ ROOT_URLCONF = "website.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [str(BASE_DIR.joinpath('templates'))],
+        "DIRS": [os.path.join(BASE_DIR, 'templates'),],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -83,17 +105,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "website.wsgi.application"
 
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': str(os.path.join(BASE_DIR, "db.sqlite3")),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -125,16 +145,88 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.2/howto/static-files/
-
-STATIC_URL = 'static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
+STATICFILES_FINDERS = [
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
+
+STATICFILES_DIRS = [
+    os.path.join(PROJECT_DIR, "static"),
+]
+
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATIC_URL = "/static/"
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = "/media/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+ADMINS = [
+    ("BRDatabase", "theBRDatabase@gmail.com"),
+]
+
+MANAGERS = ADMINS
+
+# Default to dummy email backend. Configure dev/production/local backend
+# as per https://docs.djangoproject.com/en/stable/topics/email/#email-backends
+EMAIL_BACKEND = "django.core.mail.backends.dummy.EmailBackend"
+
+EMAIL_SUBJECT_PREFIX = "[BRDatabase]"
+
+# A sample logging configuration. The only tangible logging
+# performed by this configuration is to send an email to
+# the site admins on every HTTP 500 error when DEBUG=False.
+# See https://docs.djangoproject.com/en/stable/topics/logging for
+# more details on how to customise your logging configuration.
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
+    },
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler'
+        }
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    }
+}
+
+# WAGTAIL SETTINGS
+
+# This is the human-readable name of your Wagtail install
+# which welcomes users upon login to the Wagtail admin.
+WAGTAIL_SITE_NAME = 'BR Database'
+
+WAGTAILADMIN_BASE_URL = os.getenv("WAGTAILADMIN_BASE_URL", "https://www.example.com")
+# Replace the search backend
+#WAGTAILSEARCH_BACKENDS = {
+#  'default': {
+#    'BACKEND': 'wagtail.search.backends.elasticsearch8',
+#    'INDEX': 'myapp'
+#  }
+#}
+
+# Wagtail email notifications from address
+# WAGTAILADMIN_NOTIFICATION_FROM_EMAIL = 'wagtail@myhost.io'
+
+# Wagtail email notification format
+# WAGTAILADMIN_NOTIFICATION_USE_HTML = True
+
+# Reverse the default case-sensitive handling of tags
+TAGGIT_CASE_INSENSITIVE = True
