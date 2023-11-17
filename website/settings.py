@@ -103,6 +103,10 @@ INSTALLED_APPS = [
     # Django Compressor
     # https://django-compressor.readthedocs.io/en/stable/quickstart.html#installation
     "compressor",
+
+    # Django Filters
+    # https://django-filter.readthedocs.io/en/stable/guide/install.html
+    "django_filters",
 ]
 
 # Provider specific settings
