@@ -99,6 +99,10 @@ INSTALLED_APPS = [
     # Django Import Export
     # https://django-import-export.readthedocs.io/en/latest/installation.html
     "import_export",
+
+    # Django Compressor
+    # https://django-compressor.readthedocs.io/en/stable/quickstart.html#installation
+    "compressor",
 ]
 
 # Provider specific settings
@@ -250,6 +254,9 @@ USE_TZ = True
 STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+
+    # Django-compressor
+    "compressor.finders.CompressorFinder",
 ]
 
 STATICFILES_DIRS = [
