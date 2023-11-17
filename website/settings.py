@@ -1,6 +1,12 @@
 from pathlib import Path
 import os
 from decouple import config, Csv
+import sentry_sdk
+
+sentry_sdk.init(
+    dsn="https://examplePublicKey@o0.ingest.sentry.io/0",
+    enable_tracing=True,
+)
 
 # Decoupled environment settings
 SECRET_KEY = config('SECRET_KEY')
@@ -81,6 +87,10 @@ INSTALLED_APPS = [
     # REST framework
     # https://www.django-rest-framework.org/#quickstart
     "rest_framework",
+
+    # Django GUID
+    # https://django-guid.readthedocs.io/en/latest/configuration.html
+    "django_guid",
 ]
 
 # Provider specific settings
@@ -105,7 +115,48 @@ REST_FRAMEWORK = {
     ]
 }
 
+DJANGO_GUID = {
+    'GUID_HEADER_NAME': 'Correlation-ID',
+    'VALIDATE_GUID': True,
+    'RETURN_HEADER': True,
+    'EXPOSE_HEADER': True,
+    'INTEGRATIONS': [],
+    'UUID_LENGTH': 32,
+    'UUID_FORMAT': 'hex',
+}
+
+LOGGING = {
+    'filters': {
+        'correlation_id': {
+            '()': 'django_guid.log_filters.CorrelationId'
+        }
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'medium',
+            'filters': ['correlation_id'],
+        }
+    },
+    'formatters': {
+        'medium': {
+            'format': '%(levelname)s %(asctime)s [%(correlation_id)s] %(name)s %(message)s'
+        }
+    },
+    'loggers': {
+        'django_guid': {
+            'handlers': ['console', 'logstash'],
+            'level': 'WARNING',
+            'propagate': False,
+        }
+    }
+
+}
 MIDDLEWARE = [
+    # Django GUID
+    "django_guid.middleware.guid_middleware",
+
+    # Standard Django middleware
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
