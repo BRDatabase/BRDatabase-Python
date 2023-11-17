@@ -116,9 +116,17 @@ INSTALLED_APPS = [
     # https://pypi.org/project/django-cors-headers/
     "corsheaders",
 
-    # Simpe History
+    # Simple History
     # https://django-simple-history.readthedocs.io/en/latest/quick_start.html#install
     "simple_history",
+
+    # Django-storages
+    # https://django-storages.readthedocs.io/en/latest/
+    # When ready, follow these instructions: https://django-storages.readthedocs.io/en/latest/backends/dropbox.html
+
+    # Django Swagger
+    # https://django-rest-swagger.readthedocs.io/en/latest/
+    "rest_framework_swagger",
 ]
 
 # Provider specific settings
