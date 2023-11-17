@@ -22,6 +22,9 @@ urlpatterns = [
 
     # Allauth
     path('accounts/', include('allauth.urls')),
+
+    # REST framework
+    path('api-auth/', include('rest_framework.urls'))
 ]
 
 if settings.DEBUG:

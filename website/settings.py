@@ -77,6 +77,10 @@ INSTALLED_APPS = [
     # Django-extensions
     # https://django-extensions.readthedocs.io/en/latest/installation_instructions.html#installing
     "django_extensions",
+
+    # REST framework
+    # https://www.django-rest-framework.org/#quickstart
+    "rest_framework",
 ]
 
 # Provider specific settings
@@ -91,6 +95,14 @@ SOCIALACCOUNT_PROVIDERS = {
             'key': 'xyz'
         }
     }
+}
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
 }
 
 MIDDLEWARE = [
