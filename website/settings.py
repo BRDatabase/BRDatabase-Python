@@ -111,6 +111,10 @@ INSTALLED_APPS = [
     # Django Debug Toolbar
     # https://django-debug-toolbar.readthedocs.io/en/latest/installation.html
     "debug_toolbar",
+
+    # Cors Headers
+    # https://pypi.org/project/django-cors-headers/
+    "corsheaders",
 ]
 
 # Provider specific settings
@@ -184,9 +188,46 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
+# CORS headers
+CORS_ALLOWED_ORIGINS = [
+    "https://example.com",
+    "https://sub.example.com",
+    "http://localhost:8080",
+    "http://127.0.0.1:8080",
+]
+
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^https://\w+\.example\.com$",
+]
+
+CORS_ALLOW_ALL_ORIGINS: True
+
+CORS_URLS_REGEX = r"^/api/.*$"
+
+CORS_ALLOW_METHODS = (
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+)
+
+CORS_ALLOW_HEADERS = (
+    "accept",
+    "authorization",
+    "content-type",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+)
+
 MIDDLEWARE = [
     # Django GUID
     "django_guid.middleware.guid_middleware",
+
+    # Cors Headers
+    "corsheaders.middleware.CorsMiddleware",
 
     # Standard Django middleware
     "django.middleware.security.SecurityMiddleware",
