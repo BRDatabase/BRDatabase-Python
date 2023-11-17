@@ -91,6 +91,10 @@ INSTALLED_APPS = [
     # Django GUID
     # https://django-guid.readthedocs.io/en/latest/configuration.html
     "django_guid",
+
+    # Easy thumbnails
+    # https://pypi.org/project/easy-thumbnails/
+    "easy_thumbnails",
 ]
 
 # Provider specific settings
@@ -105,6 +109,12 @@ SOCIALACCOUNT_PROVIDERS = {
             'key': 'xyz'
         }
     }
+}
+
+THUMBNAIL_ALIASES = {
+    '': {
+        'avatar': {'size': (50, 50), 'crop': True},
+    },
 }
 
 REST_FRAMEWORK = {
