@@ -24,7 +24,10 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
 
     # REST framework
-    path('api-auth/', include('rest_framework.urls'))
+    path('api-auth/', include('rest_framework.urls')),
+
+    # Djang Debug Toolbar
+    path("__debug__/", include("debug_toolbar.urls")),
 ]
 
 if settings.DEBUG:

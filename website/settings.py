@@ -107,6 +107,10 @@ INSTALLED_APPS = [
     # Django Filters
     # https://django-filter.readthedocs.io/en/stable/guide/install.html
     "django_filters",
+
+    # Django Debug Toolbar
+    # https://django-debug-toolbar.readthedocs.io/en/latest/installation.html
+    "debug_toolbar",
 ]
 
 # Provider specific settings
@@ -174,6 +178,12 @@ LOGGING = {
     }
 
 }
+
+# Required for using Debug Toolbar - only works on ip addresses listed below
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
+
 MIDDLEWARE = [
     # Django GUID
     "django_guid.middleware.guid_middleware",
@@ -192,6 +202,9 @@ MIDDLEWARE = [
 
     # Allauth - Add the account middleware:
     "allauth.account.middleware.AccountMiddleware",
+
+    # Django Debug Toolbar
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = "website.urls"
