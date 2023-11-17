@@ -115,6 +115,10 @@ INSTALLED_APPS = [
     # Cors Headers
     # https://pypi.org/project/django-cors-headers/
     "corsheaders",
+
+    # Simpe History
+    # https://django-simple-history.readthedocs.io/en/latest/quick_start.html#install
+    "simple_history",
 ]
 
 # Provider specific settings
@@ -246,6 +250,9 @@ MIDDLEWARE = [
 
     # Django Debug Toolbar
     "debug_toolbar.middleware.DebugToolbarMiddleware",
+
+    # Simple History
+    "simple_history.middleware.HistoryRequestMiddleware",
 ]
 
 ROOT_URLCONF = "website.urls"
