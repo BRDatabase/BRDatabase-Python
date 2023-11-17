@@ -95,6 +95,10 @@ INSTALLED_APPS = [
     # Easy thumbnails
     # https://pypi.org/project/easy-thumbnails/
     "easy_thumbnails",
+
+    # Django Import Export
+    # https://django-import-export.readthedocs.io/en/latest/installation.html
+    "import_export",
 ]
 
 # Provider specific settings
