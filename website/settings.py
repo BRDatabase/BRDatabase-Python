@@ -288,9 +288,38 @@ WSGI_APPLICATION = "website.wsgi.application"
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': str(os.path.join(BASE_DIR, "db.sqlite3")),
-    }
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': config('BRD_DJANGO_DB'),
+        'HOST': config('BRD_DJANGO_HOST'),
+        'PORT': config('BRD_DJANGO_PORT'),
+        'USER': config('BRD_DJANGO_USER'),
+        'PASSWORD': config('BRD_DJANGO_PWD'),
+    },
+    'brd_main': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': config('BRD_MAIN_DB'),
+        'HOST': config('BRD_MAIN_HOST'),
+        'PORT': config('BRD_MAIN_PORT'),
+        'USER': config('BRD_MAIN_USER'),
+        'PASSWORD': config('BRD_MAIN_PWD'),
+    },
+    'brd_log': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': config('BRD_LOG_DB'),
+        'HOST': config('BRD_LOG_HOST'),
+        'PORT': config('BRD_LOG_PORT'),
+        'USER': config('BRD_LOG_USER'),
+        'PASSWORD': config('BRD_LOG_PWD'),
+    },
+    'brd_blog': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': config('BRD_BLOG_DB'),
+        'HOST': config('BRD_BLOG_HOST'),
+        'PORT': config('BRD_BLOG_PORT'),
+        'USER': config('BRD_BLOG_USER'),
+        'PASSWORD': config('BRD_BLOG_PWD'),
+    },
+
 }
 
 # Password validation
