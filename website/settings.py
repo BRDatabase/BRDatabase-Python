@@ -252,6 +252,11 @@ MIDDLEWARE = [
     # Cors Headers
     "corsheaders.middleware.CorsMiddleware",
 
+    # My bespoke middleware
+    "middleware.undesirable_country_blocker.CountryDenyMiddleware",
+    "middleware.query_blocker.BlockSQLInjection",
+    "middleware.old_db_rerouter.OldBRDatabaseReRouter",
+
     # Standard Django middleware
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
