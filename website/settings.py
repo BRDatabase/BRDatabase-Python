@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     "home",                         # Index page and introduction
     "dbase",                        # All models - better this way as many apps use many models
     "api",                          # API to allow for either use of React and/or data distribution
+    "mt_tools",                     # Management tools repository
 
     "cms",                          # BRDatabase Wagtail CMS - may not be necessary
 
@@ -330,6 +331,14 @@ DATABASES = {
         'PORT': config('BRD_BLOG_PORT'),
         'USER': config('BRD_BLOG_USER'),
         'PASSWORD': config('BRD_BLOG_PWD'),
+    },
+    'brd_pending': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': config('BRD_PENDING_DB'),
+        'HOST': config('BRD_PENDING_HOST'),
+        'PORT': config('BRD_PENDING_PORT'),
+        'USER': config('BRD_PENDING_USER'),
+        'PASSWORD': config('BRD_PENDING_PWD'),
     },
 
 }
