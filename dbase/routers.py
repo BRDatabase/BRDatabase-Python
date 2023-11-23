@@ -15,6 +15,8 @@ class DBRouter:
             return 'brd_main'
         elif model._meta.app_label == 'blog':
             return 'brd_blog'
+        elif model._meta.app_label == 'mt_tools':
+            return 'brd_pending'
         else:
             return 'default'
     
@@ -24,19 +26,25 @@ class DBRouter:
             return 'brd_main'
         elif model._meta.app_label == 'blog':
             return 'brd_blog'
+        elif model._meta.app_label == 'mt_tools':
+            return 'brd_pending'
         else:
             return 'default'
    
     def allow_relation(self, obj1, obj2, **hints):
         #rint(f"Relation: {self.router} - labels: {obj1._meta.app_label}/{obj2._meta.app_label} match {self.route_app_labels} - returning True")
+        all_dbases = {'dbase', 'blog', 'mt_tools'}
+
         if obj1._meta.app_label == 'dbase' and obj2._meta.app_label == 'dbase':
             return True
         elif obj1._meta.app_label == 'blog' and obj2._meta.app_label == 'blog':
             return True
+        elif obj1._meta.app_label == 'mt_tools' and obj2._meta.app_label == 'mt_tools':
+            return True
         elif (
-            obj1._meta.app_label != 'dbase' and obj1._meta.app_label != 'blog'
+            obj1._meta.app_label not in all_dbases
                 and
-            obj2._meta.app_label != 'dbase' and obj2._meta.app_label != 'blog'
+            obj2._meta.app_label not in all_dbases
         ):
             return True            
 
@@ -48,5 +56,7 @@ class DBRouter:
             return db == 'brd_main'
         elif app_label == 'blog':
             return db == 'brd_blog'
+        elif app_label == 'mt_tools':
+            return db == 'brd_pending'
         else:
             return db == 'default'
