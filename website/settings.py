@@ -4,6 +4,9 @@ from decouple import config, Csv
 # settings.py
 import sentry_sdk
 
+"""
+Disabled for the time being
+
 sentry_sdk.init(
     dsn="https://64a54e24f1fc2bf2013576d28734285a@o4506253473742848.ingest.sentry.io/4506253475512320",
     # Set traces_sample_rate to 1.0 to capture 100%
@@ -14,6 +17,7 @@ sentry_sdk.init(
     # We recommend adjusting this value in production.
     profiles_sample_rate=1.0,
 )
+"""
 
 # Decoupled environment settings
 SECRET_KEY = config('SECRET_KEY')
@@ -294,6 +298,8 @@ TEMPLATES = [
     },
 ]
 
+DATABASE_ROUTERS = ['dbase.routers.DBRouter']
+
 WSGI_APPLICATION = "website.wsgi.application"
 
 # Database
@@ -307,6 +313,9 @@ DATABASES = {
         'PORT': config('BRD_DJANGO_PORT'),
         'USER': config('BRD_DJANGO_USER'),
         'PASSWORD': config('BRD_DJANGO_PWD'),
+        'OPTIONS': {
+            'init_command': 'SET default_storage_engine=INNODB',
+        }
     },
     'brd_main': {
         'ENGINE': 'django.db.backends.mysql',
@@ -315,6 +324,9 @@ DATABASES = {
         'PORT': config('BRD_MAIN_PORT'),
         'USER': config('BRD_MAIN_USER'),
         'PASSWORD': config('BRD_MAIN_PWD'),
+        'OPTIONS': {
+            'init_command': 'SET default_storage_engine=INNODB',
+        }
     },
     'brd_log': {
         'ENGINE': 'django.db.backends.mysql',
@@ -323,6 +335,9 @@ DATABASES = {
         'PORT': config('BRD_LOG_PORT'),
         'USER': config('BRD_LOG_USER'),
         'PASSWORD': config('BRD_LOG_PWD'),
+        'OPTIONS': {
+            'init_command': 'SET default_storage_engine=INNODB',
+        }
     },
     'brd_blog': {
         'ENGINE': 'django.db.backends.mysql',
@@ -331,6 +346,9 @@ DATABASES = {
         'PORT': config('BRD_BLOG_PORT'),
         'USER': config('BRD_BLOG_USER'),
         'PASSWORD': config('BRD_BLOG_PWD'),
+        'OPTIONS': {
+            'init_command': 'SET default_storage_engine=INNODB',
+        }
     },
     'brd_pending': {
         'ENGINE': 'django.db.backends.mysql',
@@ -461,3 +479,5 @@ WAGTAILADMIN_BASE_URL = os.getenv("WAGTAILADMIN_BASE_URL", "https://www.example.
 
 # Reverse the default case-sensitive handling of tags
 TAGGIT_CASE_INSENSITIVE = True
+
+SILENCED_SYSTEM_CHECKS = ["models.W036"]
