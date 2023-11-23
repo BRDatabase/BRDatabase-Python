@@ -13,12 +13,9 @@ from wagtail.documents import urls as wagtaildocs_urls
 urlpatterns = [
     path('django-admin/', admin.site.urls),
 
-    path('admin/', include(wagtailadmin_urls)),
+    path('cms/', include(wagtailadmin_urls)),
     path('documents/', include(wagtaildocs_urls)),
-
-    # For anything not caught by a more specific rule above, hand over to
-    # Wagtail's serving mechanism
-    re_path(r'', include(wagtail_urls)),
+    path('pages/', include(wagtail_urls)),
 
     # Allauth
     path('accounts/', include('allauth.urls')),
@@ -34,7 +31,7 @@ if settings.DEBUG:
     from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
     urlpatterns += staticfiles_urlpatterns() # tell gunicorn where static files are in dev mode
-    urlpatterns += static(settings.MEDIA_URL + 'images/', document_root=os.path.join(settings.MEDIA_ROOT, 'images'))
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += [
         path('favicon.ico', RedirectView.as_view(url=settings.STATIC_URL + 'myapp/images/favicon.ico'))
     ]
