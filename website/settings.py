@@ -225,12 +225,12 @@ CORS_ALLOW_ALL_ORIGINS: True
 CORS_URLS_REGEX = r"^/api/.*$"
 
 CORS_ALLOW_METHODS = (
-    "DELETE",
+    #"DELETE",
     "GET",
-    "OPTIONS",
-    "PATCH",
+    #"OPTIONS",
+    #"PATCH",
     "POST",
-    "PUT",
+    #"PUT",
 )
 
 CORS_ALLOW_HEADERS = (
