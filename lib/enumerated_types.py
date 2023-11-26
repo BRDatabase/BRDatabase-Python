@@ -27,3 +27,12 @@ class AllocationFlags(models.TextChoices):
     ALLOC_LOAN = "L", _("On Loan")
     ALLOC_BACK = "B", _("Returned from Loan/Hire")
     ALLOC_STOCK = "K", _("New to Stock")
+
+class VehicleType(models.TextChoices):
+    VEHICLE_DIESEL = "D", _("Diesel")
+    VEHICLE_STEAM = "S", _("Steam")
+    VEHICLE_ELECTRIC = "E", _("Electric")
+    VEHICLE_GASTURBINE = "GT", _("Gas Turbine")
+    VEHICLE_DMU = "DMU", _("DMU")
+    VEHICLE_EMU = "EMU", _("EMU")
+    VEHICLE_RM = "RM", _("RailMotor")
