@@ -25,6 +25,10 @@ urlpatterns = [
 
     # Djang Debug Toolbar
     path("__debug__/", include("debug_toolbar.urls")),
+
+    # My apps
+    path('', include('home.urls')),
+    path('sites/', include('sites.urls')),
 ]
 
 if settings.DEBUG:
